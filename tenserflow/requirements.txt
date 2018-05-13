@@ -1,0 +1,2 @@
+tensorflow
+git+https://github.com/tflearn/tflearn.git
