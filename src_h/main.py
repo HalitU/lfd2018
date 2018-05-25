@@ -107,6 +107,17 @@ rfc = RandomForestClassifier(n_estimators=100, max_features=16, criterion='entro
 rfc.fit(train_features, train_data['returnShipment'])
 predictions = rfc.predict(test_features)
 
+print(predictions.shape)
+print(np.asmatrix(predictions).shape)
+# predictions = predictions[:, 1]
+predictions = np.asmatrix(predictions).T
+predictions = pd.DataFrame(predictions)
+predictions.index += 1
+predictions.index.name = 'orderItemID'
+predictions.to_csv("predictions.csv", header=['returnShipment'], float_format="%.10f", index_label='orderItemID')
+print("Prediction Done.")
+# -----------------Prediction Done----------------------------
+
 # @NOTE DNN Tenserflow
 # tf.reset_default_graph()
 # net = tflearn.input_data(shape=[None, 16])
@@ -150,22 +161,6 @@ predictions = rfc.predict(test_features)
 # test_pca_features = pca.transform(test_features)
 # predictions = sv.predict(test_pca_features)
 
-# -----------------Prediction Done----------------------------
-print(predictions.shape)
-print(np.asmatrix(predictions).shape)
-# predictions = predictions[:, 1]
-predictions = np.asmatrix(predictions).T
-predictions = pd.DataFrame(predictions)
-predictions.index += 1
-predictions.index.name = 'orderItemID'
-predictions.to_csv("predictions.csv", header=['returnShipment'], float_format="%.10f", index_label='orderItemID')
-print("Prediction Done.")
-
-# Bagging, SVM, Kmeans, Kneigh, ExtraTreesRegressor
-# naive_bayes : multinomialNB, bernoulliNB
-# linear_model : Perceptron == SGDClassifier, PassiveAggressiveClassifier
-# neural_network: MLPClassifier
-
 # @NOTE Native bagging 3514 best
 # Bagging with KMeans invalid results
 # Bagging with ExtraTreeRegressor memory error
@@ -178,11 +173,6 @@ print("Prediction Done.")
 # km = KMeans()
 # km.fit(train_features, train_data['returnShipment'])
 # predictions = km.predict(test_features)
-
-# SVM Regressor Didnt work
-# sv = svm.SVR()
-# sv.fit(train_features, train_data['returnShipment'])
-# predictions = sv.predict(test_features)
 
 # MultinomialNB 11k
 # mNB = MultinomialNB()
